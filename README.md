@@ -2,7 +2,6 @@
 
 > Aplicação full-stack de análise de vendas com carregamento inteligente de dados e filtragem hierárquica
 
-![Prévia do Dashboard](/Users/ericknascimento/.gemini/antigravity/brain/080b2134-71c0-4187-b001-5d3fe2219310/uploaded_image_1766121234434.png)
 
 ## Índice
 
@@ -482,36 +481,6 @@ front-end-grafos/
 
 ---
 
-## Pontos de Aprendizado
-
-Este projeto demonstra:
-
-1. **Padrões Modernos de React**
-   - Arquitetura baseada em Hooks
-   - Context API para gerenciamento de estado
-   - Custom hooks para lógica de negócios
-   - Memoização para performance
-
-2. **Melhores Práticas de Backend**
-   - Design de API RESTful
-   - Melhores práticas de MongoDB
-   - Automação de seeding de dados
-   - Documentação de API com Swagger
-
-3. **DevOps**
-   - Containerização Docker
-   - Orquestração de serviços
-   - Health checks
-   - Gerenciamento de dependências
-
-4. **Qualidade de Código**
-   - TypeScript para segurança de tipos
-   - Princípios SOLID
-   - Práticas de código limpo
-   - Padrões de tratamento de erros
-
----
-
 ## Schema do Banco de Dados
 
 ### Coleções
@@ -570,25 +539,4 @@ Configuração completa de Docker com seeding automático de banco de dados, tor
 
 **Erick Nascimento**
 
----
-
-## Licença
-
-Este projeto faz parte de uma avaliação técnica.
-
----
-
-## Melhorias Futuras
-
-Possíveis melhorias para produção:
-- [ ] Paginação para datasets grandes
-- [ ] Exportar dados para CSV/Excel
-- [ ] Filtragem por intervalo de datas
-- [ ] Gráficos avançados (pizza, barra, área)
-- [ ] Autenticação de usuário
-- [ ] Atualizações em tempo real com WebSockets
-- [ ] Testes unitários e de integração
-- [ ] Pipeline CI/CD
-- [ ] Monitoramento de performance
-- [ ] Estratégia de cache (Redis)
 
