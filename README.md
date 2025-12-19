@@ -533,10 +533,5 @@ Cobertura completa de TypeScript no frontend e backend, capturando erros em temp
 ### 5. Desenvolvimento Docker-First
 Configuração completa de Docker com seeding automático de banco de dados, tornando trivial começar.
 
----
-
-## Autor
-
-**Erick Nascimento**
 
 
