@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: sales-report-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: sales-report
+    volumes:
+      - mongodb_data:/data/db
+      - ./backend/src/database/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - sales-report-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/sales-report --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sales-report-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://mongodb:27017/sales-report
+      NODE_ENV: development
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - sales-report-network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    entrypoint: ["/bin/sh", "/app/scripts/entrypoint.sh"]
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/categories"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sales-report-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:3000/api
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - sales-report-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+networks:
+  sales-report-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+
