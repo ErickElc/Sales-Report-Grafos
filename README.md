@@ -1,39 +1,39 @@
-# Sales Report Dashboard
+# Dashboard de Relatórios de Vendas
 
-> Full-stack sales analytics application with smart data loading and hierarchical filtering
+> Aplicação full-stack de análise de vendas com carregamento inteligente de dados e filtragem hierárquica
 
-![Dashboard Preview](/Users/ericknascimento/.gemini/antigravity/brain/080b2134-71c0-4187-b001-5d3fe2219310/uploaded_image_1766121234434.png)
+![Prévia do Dashboard](/Users/ericknascimento/.gemini/antigravity/brain/080b2134-71c0-4187-b001-5d3fe2219310/uploaded_image_1766121234434.png)
 
-## 📋 Table of Contents
+## Índice
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Tech Stack](#tech-stack)
-- [Key Features](#key-features)
-- [Smart Loading Strategy](#smart-loading-strategy)
-- [Setup & Installation](#setup--installation)
-- [API Documentation](#api-documentation)
-- [Code Quality](#code-quality)
-- [Project Structure](#project-structure)
-
----
-
-## 🎯 Overview
-
-Sales Report Dashboard is a modern full-stack application designed to visualize and manage sales data through an intuitive interface. The system demonstrates best practices in React state management, API design, and Docker containerization.
-
-**Core Functionality:**
-- Interactive dashboard with sales analytics for the first 4 months of the year
-- Hierarchical filtering system (Category → Product → Brand)
-- Full CRUD operations for Categories, Products, Brands, and Sales
-- Real-time data aggregation and chart visualization
-- Responsive search and alphabetical sorting across all entities
+- [Visão Geral](#visão-geral)
+- [Arquitetura](#arquitetura)
+- [Stack Tecnológica](#stack-tecnológica)
+- [Funcionalidades Principais](#funcionalidades-principais)
+- [Estratégia de Carregamento Inteligente](#estratégia-de-carregamento-inteligente)
+- [Configuração e Instalação](#configuração-e-instalação)
+- [Documentação da API](#documentação-da-api)
+- [Qualidade de Código](#qualidade-de-código)
+- [Estrutura do Projeto](#estrutura-do-projeto)
 
 ---
 
-## 🏗️ Architecture
+## Visão Geral
 
-### System Overview
+O Dashboard de Relatórios de Vendas é uma aplicação full-stack moderna projetada para visualizar e gerenciar dados de vendas através de uma interface intuitiva. O sistema demonstra as melhores práticas em gerenciamento de estado React, design de API e containerização Docker.
+
+**Funcionalidades Principais:**
+- Dashboard interativo com análise de vendas para os primeiros 4 meses do ano
+- Sistema de filtragem hierárquica (Categoria → Produto → Marca)
+- Operações CRUD completas para Categorias, Produtos, Marcas e Vendas
+- Agregação de dados em tempo real e visualização em gráficos
+- Busca responsiva e ordenação alfabética em todas as entidades
+
+---
+
+## Arquitetura
+
+### Visão Geral do Sistema
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -48,17 +48,17 @@ Sales Report Dashboard is a modern full-stack application designed to visualize 
 └─────────────────────────────────────────────────────┘
 ```
 
-### Data Flow
+### Fluxo de Dados
 
 ```
 ┌──────────────┐
-│  User Action │
+│  Ação Usuário│
 └──────┬───────┘
        │
        ▼
 ┌──────────────────────────┐
-│  React Component         │
-│  (Dashboard/CRUD Pages)  │
+│  Componente React        │
+│  (Dashboard/Páginas CRUD)│
 └──────┬───────────────────┘
        │
        ▼
@@ -73,13 +73,13 @@ Sales Report Dashboard is a modern full-stack application designed to visualize 
        ▼
 ┌──────────────────┐
 │  AppState        │
-│  (Global State)  │
+│  (Estado Global) │
 └──────┬───────────┘
        │
        ▼
 ┌──────────────────┐
-│  API Services    │
-│  (Axios calls)   │
+│  Serviços API    │
+│  (chamadas Axios)│
 └──────┬───────────┘
        │
        ▼
@@ -97,155 +97,155 @@ Sales Report Dashboard is a modern full-stack application designed to visualize 
 
 ---
 
-## 🛠️ Tech Stack
+## Stack Tecnológica
 
 ### Frontend
-- **React 18** - UI library with hooks
-- **TypeScript** - Type safety
-- **Vite** - Fast build tool
-- **Highcharts** - Data visualization
-- **Axios** - HTTP client
-- **Context API** - Global state management
-- **React Router** - Client-side routing
-- **SCSS** - Styling
+- **React 19** - Biblioteca UI com hooks
+- **TypeScript** - Segurança de tipos
+- **Vite** - Ferramenta de build rápida
+- **Highcharts** - Visualização de dados
+- **Axios** - Cliente HTTP
+- **Context API** - Gerenciamento de estado global
+- **React Router** - Roteamento client-side
+- **SCSS** - Estilização
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **TypeScript** - Type safety
-- **MongoDB** - NoSQL database
-- **Mongoose** - ODM for MongoDB
-- **Swagger** - API documentation
-- **CORS** - Cross-origin resource sharing
+- **Node.js** - Ambiente de execução
+- **Express.js** - Framework web
+- **TypeScript** - Segurança de tipos
+- **MongoDB** - Banco de dados NoSQL
+- **Mongoose** - ODM para MongoDB
+- **Swagger** - Documentação da API
+- **CORS** - Compartilhamento de recursos entre origens
 
 ### DevOps
-- **Docker & Docker Compose** - Containerization
-- **Wait-for-it** - Service dependency management
+- **Docker & Docker Compose** - Containerização
+- **Wait-for-it** - Gerenciamento de dependências de serviços
 
 ---
 
-## ✨ Key Features
+## Funcionalidades Principais
 
-### 1. Smart Loading Strategy
+### 1. Estratégia de Carregamento Inteligente
 
-The application automatically chooses the optimal data loading approach based on dataset size:
+A aplicação escolhe automaticamente a abordagem ideal de carregamento de dados baseada no tamanho do dataset:
 
-- **Small datasets** (≤100 items): Loads all data at once for instant filtering
-- **Large datasets** (>100 items): Implements lazy loading to maintain performance
+- **Datasets pequenos** (≤100 itens): Carrega todos os dados de uma vez para filtragem instantânea
+- **Datasets grandes** (>100 itens): Implementa carregamento lazy para manter a performance
 
 ```typescript
-// Checks total item count on mount
+// Verifica a contagem total de itens na montagem
 const totalItems = categoryCount + productCount + brandCount;
 
 if (totalItems <= 100) {
-  // Load everything - fast filtering, zero additional requests
-  loadAll Data();
+  // Carrega tudo - filtragem rápida, zero requisições adicionais
+  loadAllData();
 } else {
-  // Load on demand - scalable for large datasets
+  // Carrega sob demanda - escalável para datasets grandes
   loadOnDemand();
 }
 ```
 
-### 2. Hierarchical Filtering
+### 2. Filtragem Hierárquica
 
-Intelligent cascade filtering system:
+Sistema de filtragem em cascata inteligente:
 
 ```
-Category Selection → Filters Products
-Product Selection → Filters Brands  
-Brand Selection → Shows Specific Sales Data
+Seleção de Categoria → Filtra Produtos
+Seleção de Produto → Filtra Marcas  
+Seleção de Marca → Mostra Dados Específicos de Vendas
 ```
 
-**Data Aggregation:**
-- Category selected: Shows aggregated sales from all products in that category
-- Product selected: Shows aggregated sales from all brands of that product
-- Brand selected: Shows specific brand sales data
-- Nothing selected: Shows total sales across all data
+**Agregação de Dados:**
+- Categoria selecionada: Mostra vendas agregadas de todos os produtos daquela categoria
+- Produto selecionado: Mostra vendas agregadas de todas as marcas daquele produto
+- Marca selecionada: Mostra dados de vendas específicos da marca
+- Nada selecionado: Mostra vendas totais de todos os dados
 
-### 3. Search & Sort
+### 3. Busca e Ordenação
 
-All CRUD pages feature:
-- Real-time search filtering
-- Alphabetical sorting (A-Z)
-- Result count display
-- Optimized with `useMemo` for performance
+Todas as páginas CRUD possuem:
+- Filtragem de busca em tempo real
+- Ordenação alfabética (A-Z)
+- Exibição de contagem de resultados
+- Otimizado com `useMemo` para performance
 
-### 4. Global State Management
+### 4. Gerenciamento de Estado Global
 
-Centralized state using React Context API:
-- Single source of truth for all data
-- Resource-specific loading states
-- Error handling with detailed information
-- Automatic cleanup and memory management
+Estado centralizado usando React Context API:
+- Fonte única de verdade para todos os dados
+- Estados de carregamento específicos por recurso
+- Tratamento de erros com informações detalhadas
+- Limpeza automática e gerenciamento de memória
 
 ---
 
-## 🚀 Smart Loading Strategy
+## Estratégia de Carregamento Inteligente
 
-One of the standout features of this application is its intelligent data loading mechanism.
+Uma das funcionalidades de destaque desta aplicação é seu mecanismo inteligente de carregamento de dados.
 
-### The Problem
+### O Problema
 
-Traditional approaches either:
-1. Load all data upfront → Slow for large datasets
-2. Always load on-demand → Many requests for small datasets
+Abordagens tradicionais:
+1. Carregam todos os dados antecipadamente → Lento para datasets grandes
+2. Sempre carregam sob demanda → Muitas requisições para datasets pequenos
 
-### Our Solution
+### Nossa Solução
 
-**Adaptive Loading:**
+**Carregamento Adaptativo:**
 
 ```typescript
-// On application mount
-1. Check data count (lightweight request)
-2. Decide strategy based on size
-3. Apply optimal loading approach
+// Na montagem da aplicação
+1. Verifica a contagem de dados (requisição leve)
+2. Decide a estratégia baseada no tamanho
+3. Aplica a abordagem de carregamento ideal
 ```
 
-**Benefits:**
-- ✅ Fast for small datasets (current: 82 items total)
-- ✅ Scalable for large datasets (handles 1000+ items)
-- ✅ Zero code changes needed - automatic adaptation
-- ✅ Best user experience in both scenarios
+**Benefícios:**
+- Rápido para datasets pequenos (atual: 82 itens totais)
+- Escalável para datasets grandes (lida com 1000+ itens)
+- Zero mudanças de código necessárias - adaptação automática
+- Melhor experiência do usuário em ambos os cenários
 
-**Current Performance:**
-- Initial load: ~500ms (4 parallel requests)
-- Filter changes: <10ms (in-memory filtering)
-- Total requests: ~5 (vs 100+ with naive approach)
+**Performance Atual:**
+- Carregamento inicial: ~500ms (4 requisições paralelas)
+- Mudanças de filtro: <10ms (filtragem em memória)
+- Total de requisições: ~5 (vs 100+ com abordagem ingênua)
 
 ---
 
-## 📦 Setup & Installation
+## Configuração e Instalação
 
-### Prerequisites
+### Pré-requisitos
 
 - Docker & Docker Compose
-- Node.js 18+ (for local development)
+- Node.js 18+ (para desenvolvimento local)
 
-### Quick Start
+### Início Rápido
 
-1. **Clone the repository**
+1. **Clone o repositório**
    ```bash
    git clone <repository-url>
    cd front-end-grafos
    ```
 
-2. **Start with Docker**
+2. **Inicie com Docker**
    ```bash
    docker-compose up -d
    ```
 
-   This command will:
-   - Start MongoDB on port 27017
-   - Seed the database with sample data
-   - Start Backend API on port 3000
-   - Start Frontend on port 5173
+   Este comando irá:
+   - Iniciar MongoDB na porta 27017
+   - Popular o banco de dados com dados de exemplo
+   - Iniciar Backend API na porta 3000
+   - Iniciar Frontend na porta 5173
 
-3. **Access the application**
+3. **Acesse a aplicação**
    - Frontend: http://localhost:5173
    - Backend API: http://localhost:3000
-   - API Documentation: http://localhost:3000/api-docs
+   - Documentação da API: http://localhost:3000/api-docs
 
-### Development Setup
+### Configuração de Desenvolvimento
 
 **Frontend:**
 ```bash
@@ -261,13 +261,13 @@ npm install
 npm run dev
 ```
 
-### Stopping the Application
+### Parando a Aplicação
 
 ```bash
 docker-compose down
 ```
 
-### Fresh Start (Clear all data)
+### Início Limpo (Limpar todos os dados)
 
 ```bash
 docker-compose down -v
@@ -276,45 +276,45 @@ docker-compose up -d --build
 
 ---
 
-## 📡 API Documentation
+## Documentação da API
 
-### Base URL
+### URL Base
 ```
 http://localhost:3000/api
 ```
 
 ### Endpoints
 
-#### Categories
-- `GET /categories` - List all categories
-- `POST /categories` - Create category
-- `PUT /categories/:id` - Update category
-- `DELETE /categories/:id` - Delete category
+#### Categorias
+- `GET /categories` - Listar todas as categorias
+- `POST /categories` - Criar categoria
+- `PUT /categories/:id` - Atualizar categoria
+- `DELETE /categories/:id` - Deletar categoria
 
-#### Products
-- `GET /products` - List all products
-- `GET /products/category/:categoryId` - Get products by category
-- `POST /products` - Create product
-- `PUT /products/:id` - Update product
-- `DELETE /products/:id` - Delete product
+#### Produtos
+- `GET /products` - Listar todos os produtos
+- `GET /products/category/:categoryId` - Obter produtos por categoria
+- `POST /products` - Criar produto
+- `PUT /products/:id` - Atualizar produto
+- `DELETE /products/:id` - Deletar produto
 
-#### Brands
-- `GET /brands` - List all brands
-- `GET /brands/product/:productId` - Get brands by product
-- `POST /brands` - Create brand
-- `PUT /brands/:id` - Update brand
-- `DELETE /brands/:id` - Delete brand
+#### Marcas
+- `GET /brands` - Listar todas as marcas
+- `GET /brands/product/:productId` - Obter marcas por produto
+- `POST /brands` - Criar marca
+- `PUT /brands/:id` - Atualizar marca
+- `DELETE /brands/:id` - Deletar marca
 
-#### Sales
-- `GET /sales` - List all sales
-- `GET /sales/brand/:brandId` - Get sales by brand (with optional month/year filters)
-- `POST /sales` - Create sale
-- `PUT /sales/:id` - Update sale
-- `DELETE /sales/:id` - Delete sale
+#### Vendas
+- `GET /sales` - Listar todas as vendas
+- `GET /sales/brand/:brandId` - Obter vendas por marca (com filtros opcionais de mês/ano)
+- `POST /sales` - Criar venda
+- `PUT /sales/:id` - Atualizar venda
+- `DELETE /sales/:id` - Deletar venda
 
-### Sample Data Structure
+### Estrutura de Dados de Exemplo
 
-**Category:**
+**Categoria:**
 ```json
 {
   "_id": "507f1f77bcf86cd799439011",
@@ -322,7 +322,7 @@ http://localhost:3000/api
 }
 ```
 
-**Product:**
+**Produto:**
 ```json
 {
   "_id": "507f191e810c19729de860ea",
@@ -331,7 +331,7 @@ http://localhost:3000/api
 }
 ```
 
-**Brand:**
+**Marca:**
 ```json
 {
   "_id": "507f191e810c19729de860eb",
@@ -340,7 +340,7 @@ http://localhost:3000/api
 }
 ```
 
-**Sale:**
+**Venda:**
 ```json
 {
   "_id": "507f191e810c19729de860ec",
@@ -353,75 +353,75 @@ http://localhost:3000/api
 
 ---
 
-## 🎯 Code Quality
+## Qualidade de Código
 
-### Design Patterns & Best Practices
+### Padrões de Design e Melhores Práticas
 
-#### 1. SOLID Principles
+#### 1. Princípios SOLID
 
-**Single Responsibility:**
-- Each hook manages oneconcern (categories, products, brands, sales)
-- Services separated from hooks
-- Components focused on presentation
+**Responsabilidade Única:**
+- Cada hook gerencia uma preocupação (categorias, produtos, marcas, vendas)
+- Serviços separados dos hooks
+- Componentes focados em apresentação
 
-**Dependency Inversion:**
-- Hooks depend on Context, not direct API calls
-- Services abstracted behind interfaces
-- Easy to mock for testing
+**Inversão de Dependência:**
+- Hooks dependem do Context, não de chamadas diretas à API
+- Serviços abstraídos por interfaces
+- Fácil de mockar para testes
 
-#### 2. Clean Code
+#### 2. Código Limpo
 
-**Naming Conventions:**
+**Convenções de Nomenclatura:**
 ```typescript
-// Clear, descriptive names
+// Nomes claros e descritivos
 const filteredProducts = useMemo(...)
 const handleSubmit = async (e) => {...}
 ```
 
-**Type Safety:**
+**Segurança de Tipos:**
 ```typescript
-// Full TypeScript coverage
+// Cobertura completa de TypeScript
 interface Category {
   _id: string;
   name: string;
 }
 ```
 
-**Error Handling:**
+**Tratamento de Erros:**
 ```typescript
 try {
   await createCategory(data);
 } catch (error) {
   const errorMessage = error instanceof Error 
     ? error.message 
-    : 'Failed to create category';
+    : 'Falha ao criar categoria';
   dispatch({ type: 'SET_ERROR', payload: errorMessage });
 }
 ```
 
-#### 3. Performance Optimization
+#### 3. Otimização de Performance
 
-- `useMemo` for expensive computations
-- `useCallback` for stable function references
-- Parallel API requests with `Promise.all`
-- Centralized state to avoid prop drilling
+- `useMemo` para computações caras
+- `useCallback` para referências de função estáveis
+- Requisições API paralelas com `Promise.all`
+- Estado centralizado para evitar prop drilling
 
-#### 4. Code Organization
+#### 4. Organização de Código
 
 ```
 src/
-├── components/     # Reusable UI components
-├── pages/          # Route-level components
+├── components/     # Componentes UI reutilizáveis
+├── pages/          # Componentes de nível de rota
 ├── hooks/          # Custom React hooks
-├── services/       # API communication
-├── context/        # Global state management
-├── types/          # TypeScript definitions
-└── utils/          # Helper functions
+├── services/       # Comunicação com API
+├── context/        # Gerenciamento de estado global
+├── types/          # Definições TypeScript
+└── utils/          # Funções auxiliares
 ```
 
 ---
 
-## 📁 Project Structure
+## Estrutura do Projeto
 
 ```
 front-end-grafos/
@@ -468,6 +468,7 @@ front-end-grafos/
 │   │   ├── models/
 │   │   ├── routes/
 │   │   ├── services/
+│   │   ├── repositories/
 │   │   ├── database/
 │   │   │   ├── connection.ts
 │   │   │   └── seed.ts
@@ -481,52 +482,52 @@ front-end-grafos/
 
 ---
 
-## 🎓 Learning Points
+## Pontos de Aprendizado
 
-This project demonstrates:
+Este projeto demonstra:
 
-1. **Modern React Patterns**
-   - Hooks-based architecture
-   - Context API for state management
-   - Custom hooks for business logic
-   - Memoization for performance
+1. **Padrões Modernos de React**
+   - Arquitetura baseada em Hooks
+   - Context API para gerenciamento de estado
+   - Custom hooks para lógica de negócios
+   - Memoização para performance
 
-2. **Backend Best Practices**
-   - RESTful API design
-   - MongoDB best practices
-   - Data seeding automation
-   - API documentation with Swagger
+2. **Melhores Práticas de Backend**
+   - Design de API RESTful
+   - Melhores práticas de MongoDB
+   - Automação de seeding de dados
+   - Documentação de API com Swagger
 
 3. **DevOps**
-   - Docker containerization
-   - Service orchestration
+   - Containerização Docker
+   - Orquestração de serviços
    - Health checks
-   - Dependency management
+   - Gerenciamento de dependências
 
-4. **Code Quality**
-   - TypeScript for type safety
-   - SOLID principles
-   - Clean code practices
-   - Error handling patterns
+4. **Qualidade de Código**
+   - TypeScript para segurança de tipos
+   - Princípios SOLID
+   - Práticas de código limpo
+   - Padrões de tratamento de erros
 
 ---
 
-## 📊 Database Schema
+## Schema do Banco de Dados
 
-### Collections
+### Coleções
 
 **categories:**
-- ` _id`: ObjectId
-- `name`: String (required)
+- `_id`: ObjectId
+- `name`: String (obrigatório)
 
 **products:**
 - `_id`: ObjectId
-- `name`: String (required)
+- `name`: String (obrigatório)
 - `categoryId`: ObjectId (ref: categories)
 
 **brands:**
 - `_id`: ObjectId
-- `name`: String (required)
+- `name`: String (obrigatório)
 - `productId`: ObjectId (ref: products)
 
 **sales:**
@@ -534,9 +535,9 @@ This project demonstrates:
 - `brandId`: ObjectId (ref: brands)
 - `month`: Number (1-12)
 - `year`: Number
-- `value`: Number (sales amount)
+- `value`: Number (valor de vendas)
 
-### Relationships
+### Relacionamentos
 
 ```
 Category (1) ──→ (N) Products
@@ -546,48 +547,48 @@ Brand (1) ──→ (N) Sales
 
 ---
 
-## 🔍 Technical Highlights
+## Destaques Técnicos
 
-### 1. Adaptive Data Loading
-Automatically switches between "load all" and "lazy load" based on dataset size - demonstrating advanced performance optimization without code changes.
+### 1. Carregamento Adaptativo de Dados
+Alterna automaticamente entre "carregar tudo" e "lazy load" baseado no tamanho do dataset - demonstrando otimização de performance avançada sem mudanças de código.
 
-### 2. Frontend Data Filtering
-All filtering happens in-memory using `useMemo`, providing instant UI updates without server roundtrips.
+### 2. Filtragem de Dados no Frontend
+Toda filtragem acontece em memória usando `useMemo`, fornecendo atualizações instantâneas da UI sem requisições ao servidor.
 
-### 3. Centralized State Management
-Single source of truth using Context API, avoiding prop drilling and making state changes predictable.
+### 3. Gerenciamento de Estado Centralizado
+Fonte única de verdade usando Context API, evitando prop drilling e tornando mudanças de estado previsíveis.
 
-### 4. Type-Safe API Layer
-Full TypeScript coverage across frontend and backend, catching errors at compile-time.
+### 4. Camada de API Type-Safe
+Cobertura completa de TypeScript no frontend e backend, capturando erros em tempo de compilação.
 
-### 5. Docker-First Development
-Complete Docker setup with automated database seeding, making it trivial to get started.
+### 5. Desenvolvimento Docker-First
+Configuração completa de Docker com seeding automático de banco de dados, tornando trivial começar.
 
 ---
 
-## 👨‍💻 Author
+## Autor
 
 **Erick Nascimento**
 
 ---
 
-## 📝 License
+## Licença
 
-This project is part of a technical assessment.
+Este projeto faz parte de uma avaliação técnica.
 
 ---
 
-## 🚀 Future Enhancements
+## Melhorias Futuras
 
-Potential improvements for production:
-- [ ] Pagination for large datasets
-- [ ] Export data to CSV/Excel
-- [ ] Date range filtering
-- [ ] Advanced charts (pie, bar, area)
-- [ ] User authentication
-- [ ] Real-time updates with WebSockets
-- [ ] Unit and integration tests
-- [ ] CI/CD pipeline
-- [ ] Performance monitoring
-- [ ] Caching strategy (Redis)
+Possíveis melhorias para produção:
+- [ ] Paginação para datasets grandes
+- [ ] Exportar dados para CSV/Excel
+- [ ] Filtragem por intervalo de datas
+- [ ] Gráficos avançados (pizza, barra, área)
+- [ ] Autenticação de usuário
+- [ ] Atualizações em tempo real com WebSockets
+- [ ] Testes unitários e de integração
+- [ ] Pipeline CI/CD
+- [ ] Monitoramento de performance
+- [ ] Estratégia de cache (Redis)
 
